@@ -120,31 +120,27 @@ function buildFile(file, silent) {
   if (micromatch.isMatch(file, IGNORE_PATTERN)) {
     silent ||
       process.stdout.write(
-        chalk.dim('  \u2022 ') +
-          path.relative(PACKAGES_DIR, file) +
-          ' (ignore)\n'
+        `${chalk.dim('  \u2022 ') +
+  path.relative(PACKAGES_DIR, file)} (ignore)\n`
       );
   } else if (!micromatch.isMatch(file, JS_FILES_PATTERN)) {
     fs.createReadStream(file).pipe(fs.createWriteStream(destPath));
     silent ||
       process.stdout.write(
-        chalk.red('  \u2022 ') +
-          path.relative(PACKAGES_DIR, file) +
-          chalk.red(' \u21D2 ') +
-          path.relative(PACKAGES_DIR, destPath) +
-          ' (copy)' +
-          '\n'
+        `${chalk.red('  \u2022 ') +
+  path.relative(PACKAGES_DIR, file) +
+  chalk.red(' \u21D2 ') +
+  path.relative(PACKAGES_DIR, destPath)} (copy)\n`
       );
   } else {
     const transformed = babel.transformFileSync(file, babelNodeOptions).code;
     fs.writeFileSync(destPath, transformed);
     silent ||
       process.stdout.write(
-        chalk.green('  \u2022 ') +
-          path.relative(PACKAGES_DIR, file) +
-          chalk.green(' \u21D2 ') +
-          path.relative(PACKAGES_DIR, destPath) +
-          '\n'
+        `${chalk.green('  \u2022 ') +
+  path.relative(PACKAGES_DIR, file) +
+  chalk.green(' \u21D2 ') +
+  path.relative(PACKAGES_DIR, destPath)}\n`
       );
   }
 }
